@@ -9,7 +9,7 @@
 $(function() {
   // return false;
   var $goAnchor = $('[data-goto-anchor]')
-  var goDuration = 400
+  var goDuration = 150
 
 
   // Thiết lập di chuyển Anchor Link lúc ban đầu khi có ID trên đường link http
@@ -100,7 +100,7 @@ $(function() {
 
         // Fixed phần chênh lệch không đúng vị trí sau khi di chuyển scrolling
         complete: function() {
-          var chenhlechFinal = GetChenhLech(diff);
+          var chenhlechFinal = GetChenhLech(diff)
           if (chenhlechFinal != chenhlech) {
 
             $([document.documentElement, document.body]).animate({
@@ -119,7 +119,7 @@ $(function() {
   function thietlapDichuyenAnchorlinkBangHTTP() {
     var hrefHash = window.location.hash;
     if (hrefHash != "") {
-      var $target = $(hrefHash);
+      var $target = $(hrefHash)
 
       if ($target.length) {
         thietlapDichuyentoiAnchorLink($target, hrefHash)
