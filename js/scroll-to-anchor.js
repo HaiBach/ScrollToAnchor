@@ -23,7 +23,6 @@ $(function() {
     $this.on('click', function(e) {
       e.preventDefault() 
       thietlapDichuyentoiAnchorLink($this)
-      console.log('fooo')
     })
   })
 
