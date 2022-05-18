@@ -8,8 +8,8 @@
  */
 $(function() {
   // return false;
-  var $goAnchor = $('[data-goto-anchor]');
-  var goDuration = 400;
+  var $goAnchor = $('[data-goto-anchor]')
+  var goDuration = 400
 
 
   // Thiết lập di chuyển Anchor Link lúc ban đầu khi có ID trên đường link http
@@ -18,11 +18,12 @@ $(function() {
 
   // Thiết lập di chuyển tới Anchor Link trên các Link
   $goAnchor.each(function() {
-    var $this = $(this);
+    var $this = $(this)
 
     $this.on('click', function(e) {
       e.preventDefault() 
-      thietlapDichuyentoiAnchorLink($this);
+      thietlapDichuyentoiAnchorLink($this)
+      console.log('fooo')
     })
   })
 
@@ -31,25 +32,39 @@ $(function() {
    * FUNCTION THIẾT LẬP DI CHUYỂN TỚI ANCHOR LINK
    */
   function thietlapDichuyentoiAnchorLink($link, target) {
-    var duration = $link.data('goto-duration') || goDuration;
-    var diff = $link.data('goto-diff');
-    var chenhlech = false;
-    var type = false;
-    var $target;
+    var duration = $link.data('goto-duration') || goDuration
+    var diff = $link.data('goto-diff')
+    var chenhlech = false
+    var type = false
+    var href = $link.attr('href')
+    var $target
 
     // Thiết lập đối tượng target
     if (target == undefined) {
-      target = $link.data('goto-anchor');
+      target = $link.data('goto-anchor')
     }
 
 
     // Hỗ trợ [data-goto-anchor] là Number và ID/Class DOM
     if ($.isNumeric(target)) {
-      type = 'vitri';
+      type = 'vitri'
     }
     else if ( !/^\s*$/.test(target) ) {
-      $target = $( target );
-      if ($target.length) type = 'idClass';
+      $target = $( target )
+      if ($target.length) {
+        type = 'idClass'
+      }
+      /**
+       * Trường hợp: khi trên trang không có anchor link và đường link có href có giá trị khác '#'
+       * --> Di chuyển sang đường dẫn có giá trị trong href
+       */
+      else {
+        if (href !== '#') {
+          type = 'newPage'
+          // Go to new page
+          return window.location = href
+        }
+      }
     }
 
     // Điều kiện tiếp tục thực hiện
@@ -57,12 +72,12 @@ $(function() {
 
 
     // Setup phần chêch lệch
-    chenhlech = GetChenhLech(diff);
-    var chenhlechHeader = GetChenhLechHeader();
-    var chenhlechWPAdminbar = GetChenhLechWPAdminbar();
+    chenhlech = GetChenhLech(diff)
+    var chenhlechHeader = GetChenhLechHeader()
+    var chenhlechWPAdminbar = GetChenhLechWPAdminbar()
 
     // Setup phần vị trí cụ thể
-    var vitriTarget = false;
+    var vitriTarget = false
     if (type == 'vitri') {
       vitriTarget = target
     }
@@ -121,33 +136,33 @@ $(function() {
       return parseInt(diff)
     }
     else if (/^\.|#/.test(diff)) {
-      return $(diff).outerHeight();
+      return $(diff).outerHeight()
     }
-    return 0;
+    return 0
   }
 
   // Thiết lập chênh lệch Header Fixed
   // Chỉ thiết lập chênh lệch khi phần Header ở vị trí "fixed"
   function GetChenhLechHeader() {
-    var $header = $(".site-branding.scroll-inner");
-    var hHeader = $header.outerHeight();
+    var $header = $(".site-branding.scroll-inner")
+    var hHeader = $header.outerHeight()
     
     // if ($header.css('position') == 'fixed') {
     if ($header.length) {
-      return hHeader;
+      return hHeader
     }
-    return 0;
+    return 0
   }
 
   // Thiết lập chênh lệch WP AdminBar
   function GetChenhLechWPAdminbar() {
-    var $wpAdminBar = $("#wpadminbar");
-    var hAdminbar = $wpAdminBar.outerHeight();
+    var $wpAdminBar = $("#wpadminbar")
+    var hAdminbar = $wpAdminBar.outerHeight()
     
     // if ($header.css('position') == 'fixed') {
     if ($wpAdminBar.length) {
-      return hAdminbar;
+      return hAdminbar
     }
-    return 0;
+    return 0
   }
 });
